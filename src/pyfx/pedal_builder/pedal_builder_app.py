@@ -17,7 +17,9 @@ def load_stylesheet(filepath):
         return file.read()
 
 
-def pedal_builder_app(pedal_folder: Path):
+def pedal_builder_app(pedal_folder: Path | str):
+    if not isinstance(pedal_folder, Path):
+        pedal_folder = Path(pedal_folder)
     pedal_folder.mkdir(exist_ok=True)
 
     pyfx_log.info(f'Pedal Builder Opened: {datetime.now().strftime("%b-%d-%Y %H:%M:%S")}')  # noqa: DTZ005
