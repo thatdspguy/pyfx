@@ -147,7 +147,6 @@ class PedalBuilderMainWindow(QMainWindow, Ui_PedalBuilderMainWindow):
     def file__close_pedal_cb(self):
         pyfx_log.debug("File->Close Pedal pressed")
         if self.prompt_for_save_if_needed():
-            self.pedal_builder.remove_previous_pedal_file()
             self.close_pedal()
             self.adjust_and_center()
 
