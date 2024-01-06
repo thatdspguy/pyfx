@@ -33,6 +33,7 @@ class VariantReloadWatcher:
         if variant_module_name in sys.modules:
             variant_module = sys.modules[variant_module_name]
             self.variant_file = variant_module.__file__
+            self.last_modified = os.path.getmtime(self.variant_file)
             pyfx_log.debug(f"Watching {self.variant_file} for changes")
 
     def check_for_variant_file_update(self):
