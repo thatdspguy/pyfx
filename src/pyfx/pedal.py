@@ -520,6 +520,7 @@ class PyFxPedalVariant(PyFxComponent, AudioProcessor):
         knobs: dict[str, PyFxKnob],
         footswitches: dict[str, PyFxFootswitch],
     ):
+        pyfx_log.debug(f"Initializing {name} pedal")
         PyFxComponent.__init__(self)
         AudioProcessor.__init__(self, name=name)
         self.name = name
