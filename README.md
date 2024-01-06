@@ -5,8 +5,21 @@
 -----
 
 **Table of Contents**
-
+- [Installation](#installation)
+- [Usage](#usage)
 - [License](#license)
+
+## Installation
+
+```bash
+pip install pyfx-dev
+```
+
+## Usage
+
+```bash
+python -m pyfx pedal-builder
+```
 
 ## License
 
