@@ -20,13 +20,13 @@ class VolumePedal(PyFxPedal):
             "Output": PyFxKnob(
                 name="Output",
                 minimum_value=-50.0,
-                maximum_value=20.0,
+                maximum_value=0.0,
                 default_value=0.0,
                 precision=1.0,
                 sensitivity=1,
                 mode="logarithmic",
                 display_enabled=True,
-                value=3.1622776601683795,
+                value=1.0,
             ),
         }
         footswitches = {

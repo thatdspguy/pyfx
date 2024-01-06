@@ -11,8 +11,6 @@ class DefaultSaturatePedal(SaturatePedalVariantBase):
     def process_audio(self, data: np.ndarray):
         """Default Saturate Pedal Processing"""
 
-        pyfx_log.debug("HERE 1")
-
         if self.on_off:
             data = np.clip(self.amount * data, -1, 1)
         data = self.output * data

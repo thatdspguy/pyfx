@@ -59,7 +59,7 @@ class DelayPedal(PyFxPedal):
                 sensitivity=1,
                 mode="logarithmic",
                 display_enabled=True,
-                value=1.0,
+                value=0.8912509381337456,
             ),
         }
         footswitches = {
@@ -67,7 +67,7 @@ class DelayPedal(PyFxPedal):
                 name="On/Off",
                 footswitch_type="latching",
                 default_state=True,
-                state=False,
+                state=True,
                 mode=None,
                 modes=None,
                 display_enabled=True,

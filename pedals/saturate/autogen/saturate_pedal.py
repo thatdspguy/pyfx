@@ -21,13 +21,13 @@ class SaturatePedal(PyFxPedal):
             "Amount": PyFxKnob(
                 name="Amount",
                 minimum_value=0,
-                maximum_value=40.0,
+                maximum_value=50.0,
                 default_value=0.0,
                 precision=1.0,
                 sensitivity=1,
                 mode="logarithmic",
                 display_enabled=True,
-                value=10.0,
+                value=22.3872113856834,
             ),
             "Output": PyFxKnob(
                 name="Output",
@@ -38,7 +38,7 @@ class SaturatePedal(PyFxPedal):
                 sensitivity=1,
                 mode="logarithmic",
                 display_enabled=True,
-                value=0.14125375446227545,
+                value=0.0446683592150963,
             ),
         }
         footswitches = {

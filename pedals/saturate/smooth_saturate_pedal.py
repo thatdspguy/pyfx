@@ -25,7 +25,10 @@ class SmoothSaturatePedal(SaturatePedalVariantBase):
             fs=fs,
             output="sos",
         )
-        self.hpf_zi = sosfilt_zi(self.hpf_sos)
+        self.hpf_zi = [
+            sosfilt_zi(self.hpf_sos),
+            sosfilt_zi(self.hpf_sos),
+        ]
 
         bsf_order = 4
         bsf_cuttoff_freq_low = 2200
@@ -38,7 +41,10 @@ class SmoothSaturatePedal(SaturatePedalVariantBase):
             fs=fs,
             output="sos",
         )
-        self.bsf_zi = sosfilt_zi(self.bsf_sos)
+        self.bsf_zi = [
+            sosfilt_zi(self.bsf_sos),
+            sosfilt_zi(self.bsf_sos),
+        ]
 
         lpf_order = 4
         lpf_cuttoff_freq = 8000
@@ -50,24 +56,26 @@ class SmoothSaturatePedal(SaturatePedalVariantBase):
             fs=fs,
             output="sos",
         )
-        self.lpf_zi = sosfilt_zi(self.lpf_sos)
+        self.lpf_zi = [
+            sosfilt_zi(self.lpf_sos),
+            sosfilt_zi(self.lpf_sos),
+        ]
 
     def process_audio(self, data: np.ndarray):
-        pyfx_log.debug(data.shape)
-        # self.norm_rms_deque.append(np.sqrt(np.sum(data[0] ** 2)))
-        # if len(self.norm_rms_deque) > self.norm_holdoff_frames:
-        #     scale = np.mean(self.norm_rms_deque)
-        #     scale = max(scale, 0.1)
-        #     data[0] = 2 * data[0] / scale
-
         """Smooth Saturate Pedal Processing"""
         if self.on_off:
-            data[0], self.hpf_zi = sosfilt(self.hpf_sos, data[0], zi=self.hpf_zi)
-            data[0], self.bsf_zi = sosfilt(self.bsf_sos, data[0], zi=self.bsf_zi)
-            data[0], self.lpf_zi = sosfilt(self.lpf_sos, data[0], zi=self.lpf_zi)
-            data[0] = np.clip(self.amount * data[0], -1, 1)
+            for channel_idx in range(data.shape[0]):
+                data[channel_idx], self.hpf_zi[channel_idx] = sosfilt(
+                    self.hpf_sos, data[channel_idx], zi=self.hpf_zi[channel_idx]
+                )
+                data[channel_idx], self.bsf_zi[channel_idx] = sosfilt(
+                    self.bsf_sos, data[channel_idx], zi=self.bsf_zi[channel_idx]
+                )
+                data[channel_idx], self.lpf_zi[channel_idx] = sosfilt(
+                    self.lpf_sos, data[channel_idx], zi=self.lpf_zi[channel_idx]
+                )
+            data = np.clip(self.amount * data, -1, 1)
 
-        data[0] = self.output * data[0]
-        # data[0] = np.clip(data[0], -1, 1)
+        data = self.output * data
 
         return data
