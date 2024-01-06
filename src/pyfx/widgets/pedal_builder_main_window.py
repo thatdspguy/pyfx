@@ -62,7 +62,7 @@ class PedalBuilderMainWindow(QMainWindow, Ui_PedalBuilderMainWindow):
     Handles the creation, opening, saving, and display of pedal configurations.
     """
 
-    audio_assets = Path("src/pyfx/assets/audio")
+    audio_assets = Path(__file__).parent.parent / "assets/audio"
 
     def __init__(self, pedal_builder: PedalBuilder, audio_controller: PyFxAudioController):
         """
@@ -126,7 +126,7 @@ class PedalBuilderMainWindow(QMainWindow, Ui_PedalBuilderMainWindow):
         self.transport_control.stop.connect(self.audio_controller.stop_audio_file)
         self.transport_control.loop.connect(self.audio_controller.set_audio_file_loop_state)
         self.transport_control.set_audio_file.connect(self.audio_controller.set_audio_file)
-        self.transport_control.set_audio_folder(Path("src/pyfx/assets/audio").resolve())
+        self.transport_control.set_audio_folder(self.audio_assets.resolve())
 
     """File Menu Callbacks"""
 

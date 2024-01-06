@@ -1,5 +1,4 @@
 import argparse
-import shutil
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -26,7 +25,9 @@ def pedal_builder_app(pedal_folder: Path | str):
 
     app = QApplication(sys.argv)
 
-    stylesheet = load_stylesheet("src/pyfx/pedal_builder/pedal_builder_app_stylesheet.qss")
+    current_folder = Path(__file__).parent
+    stylesheet_file = current_folder / "pedal_builder_app_stylesheet.qss"
+    stylesheet = load_stylesheet(stylesheet_file)
     app.setStyleSheet(stylesheet)
 
     audio_controller = PyFxAudioController()
