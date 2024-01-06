@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from PySide6.QtCore import Signal
@@ -11,7 +12,7 @@ from pyfx.widgets.channel_configuration_widget import ChannelConfigurationWidget
 
 
 class AudioPreferencesWidget(QWidget, Ui_AudioPreferencesWidget):
-    default_audio_folder = Path("src/pyfx/assets/audio").resolve().as_posix()
+    default_audio_folder = Path(os.environ.get("AUDIO_ASSETS_FOLDER")).resolve().as_posix()
     file_mode_set = Signal()
     interface_mode_set = Signal()
 

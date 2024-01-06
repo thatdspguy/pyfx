@@ -73,7 +73,7 @@ class PedalBuilderMainWindow(QMainWindow, Ui_PedalBuilderMainWindow):
         """
         super().__init__()
         self.setupUi(self)
-        self.setWindowIcon(QIcon("src/pyfx/assets/pyfx_logo.png"))
+        self.setWindowIcon(QIcon(os.environ.get("PYFX_LOGO")))
         self.preferences = PreferencesWidget(audio_controller=audio_controller)
         self.preferences.audio_preferences.file_mode_set.connect(self.transport_control.show)
         self.preferences.audio_preferences.interface_mode_set.connect(self.transport_control.hide)
