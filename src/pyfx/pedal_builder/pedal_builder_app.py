@@ -20,7 +20,7 @@ def load_stylesheet(filepath):
 def pedal_builder_app(pedal_folder: Path):
     pedal_folder.mkdir(exist_ok=True)
 
-    pyfx_log.info("Pedal Builder Opened: {}".format(datetime.now().strftime("%b-%d-%Y %H:%M:%S")))  # noqa: DTZ005
+    pyfx_log.info(f'Pedal Builder Opened: {datetime.now().strftime("%b-%d-%Y %H:%M:%S")}')  # noqa: DTZ005
 
     app = QApplication(sys.argv)
 
@@ -38,7 +38,7 @@ def pedal_builder_app(pedal_folder: Path):
 
     ret = app.exec()
 
-    pyfx_log.info("Pedal Builder Closed: {}\n".format(datetime.now().strftime("%b-%d-%Y %H:%M:%S")))  # noqa: DTZ005
+    pyfx_log.info(f'Pedal Builder Closed: {datetime.now().strftime("%b-%d-%Y %H:%M:%S")}\n')  # noqa: DTZ005
 
     sys.exit(ret)
 
