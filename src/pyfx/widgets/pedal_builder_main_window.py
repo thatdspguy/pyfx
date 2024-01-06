@@ -1,3 +1,4 @@
+import contextlib
 import datetime
 import os
 import sys
@@ -218,10 +219,8 @@ class PedalBuilderMainWindow(QMainWindow, Ui_PedalBuilderMainWindow):
         This function attempts to save the current pedal using the pedal builder.
         If the pedal does not exist, it catches the `PedalDoesNotExistError` exception.
         """
-        try:
+        with contextlib.suppress(PedalDoesNotExistError):
             self.pedal_builder.save_pedal()
-        except PedalDoesNotExistError:
-            pass
 
     def open_preferences(self):
         screen = QApplication.primaryScreen().geometry()
