@@ -1,3 +1,4 @@
+import datetime
 import os
 import sys
 from pathlib import Path
@@ -42,10 +43,9 @@ class VariantReloadWatcher:
             if self.last_modified is None:
                 self.last_modified = current_modified
             elif current_modified != self.last_modified:
+                current_modified_str = datetime.datetime.fromtimestamp(current_modified).strftime("%Y-%m-%d %H:%M:%S")  # noqa: DTZ006
+                pyfx_log.debug(f"Variant file {self.variant_file} updated at {current_modified_str}")
                 self.last_modified = current_modified
-                pyfx_log.debug(
-                    f"Variant file update: current_modified: {current_modified}  last_modified: {self.last_modified}"
-                )
                 self.on_variant_file_changed()
         else:
             self.last_modified = None
