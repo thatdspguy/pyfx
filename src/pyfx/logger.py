@@ -66,24 +66,24 @@ class PyFxDevLogFilter(logging.Filter):
             return True
 
 
-if not os.path.exists("logs"):
-    os.mkdir("logs")
+# if not os.path.exists("logs"):
+#     os.mkdir("logs")
 
 
-file_logger = logging.FileHandler(filename="logs/pyfx.log")
-file_logger.setLevel(logging.DEBUG)
-file_logger.addFilter(PyFxDevLogFilter())
-file_logger_formatter = logging.Formatter(
-    "{filename} : {funcName} : line({lineno}) : time({relativeCreated} ms)\n{levelname} : {message}\n",
-    style="{",
-)
-file_logger.setFormatter(file_logger_formatter)
+# file_logger = logging.FileHandler(filename="logs/pyfx.log")
+# file_logger.setLevel(logging.DEBUG)
+# file_logger.addFilter(PyFxDevLogFilter())
+# file_logger_formatter = logging.Formatter(
+#     "{filename} : {funcName} : line({lineno}) : time({relativeCreated} ms)\n{levelname} : {message}\n",
+#     style="{",
+# )
+# file_logger.setFormatter(file_logger_formatter)
 
-file_logger_cond = logging.FileHandler(filename="logs/pyfx_cond.log")
-file_logger_cond.setLevel(logging.DEBUG)
-file_logger_cond.addFilter(PyFxDevLogFilter())
-file_logger_cond_formatter = logging.Formatter("{levelname} : {message}", style="{")
-file_logger_cond.setFormatter(file_logger_cond_formatter)
+# file_logger_cond = logging.FileHandler(filename="logs/pyfx_cond.log")
+# file_logger_cond.setLevel(logging.DEBUG)
+# file_logger_cond.addFilter(PyFxDevLogFilter())
+# file_logger_cond_formatter = logging.Formatter("{levelname} : {message}", style="{")
+# file_logger_cond.setFormatter(file_logger_cond_formatter)
 
 console_logger = logging.StreamHandler()
 console_logger.setLevel(logging.DEBUG)
@@ -93,8 +93,8 @@ console_logger.setFormatter(console_logger_formatter)
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-logger.addHandler(file_logger)
-logger.addHandler(file_logger_cond)
+# logger.addHandler(file_logger)
+# logger.addHandler(file_logger_cond)
 logger.addHandler(console_logger)
 
 pyfx_log = logger

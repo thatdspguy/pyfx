@@ -35,7 +35,6 @@ class AudioInterfaceInfo:
                     default_sample_rate=device_info["defaultSampleRate"],
                 )
             )
-            pyfx_log.debug(devices[-1])
         return devices
 
     def _get_audio_input_devices(self) -> list[AudioDeviceInfo]:

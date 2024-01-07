@@ -18,7 +18,7 @@ pip install pyfx-dev
 ## Usage
 
 ```bash
-python -m pyfx pedal-builder
+python -m pyfx pedal-builder --with-examples
 ```
 
 ## License
