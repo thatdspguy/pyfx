@@ -1,3 +1,4 @@
+import contextlib
 import importlib
 import re
 import shutil
@@ -163,8 +164,7 @@ class PedalBuilder:
 
         self.root_pedal_folder = root_pedal_folder
         try:
-            with open(startup_config_file(self.root_pedal_folder)) as file:
-                pedal_name = file.read()
+            pedal_name = Path(startup_config_file(self.root_pedal_folder)).read_text()
             self.open_pedal(pedal_name)
         except FileNotFoundError:
             self.pedal = None
@@ -215,11 +215,9 @@ class PedalBuilder:
     """Close Pedal"""
 
     def close_pedal(self):
-        try:
+        with contextlib.suppress(AttributeError):
             if self.temporary:
                 shutil.rmtree(pedal_folder(self.root_pedal_folder, self.pedal.name))
-        except AttributeError:
-            pass
         self.pedal = None
 
     """Save Pedal"""
@@ -281,6 +279,7 @@ class PedalBuilder:
         self.variant_name_changes = {}
 
     def generate_pedal_module(self, pedal_name: str, variant_names: str):
+        # sourcery skip: extract-duplicate-method
         pyfx_log.debug(f"Generating {pedal_name} module")
 
         with open(pedal_module_file(self.root_pedal_folder, pedal_name), "w") as file:
@@ -362,7 +361,7 @@ class PedalBuilder:
                 file.write("        variants = {}\n")
             if self.pedal is not None and self.pedal.variant is not None:
                 file.write(f'        variant = variants["{self.pedal.variant.name}"]\n')
-            elif len(variant_names) > 0:
+            elif variant_names != "":
                 file.write(f'        variant = variants["{variant_names[0]}"]\n')
             else:
                 file.write("        variant = None\n")
@@ -379,6 +378,7 @@ class PedalBuilder:
             file.write("        )\n")
 
     def generate_pedal_variant_module(self, pedal_name: str, variant_name: str):
+        # sourcery skip: extract-duplicate-method
         with open(pedal_variant_module_file(self.root_pedal_folder, pedal_name, variant_name), "w") as file:
             file.write("import numpy as np\n")
             file.write(
@@ -437,15 +437,7 @@ class PedalBuilder:
                     file.write("\n")
                     file.write(f'    """{footswitch.name} Footswitch Parameters"""\n')
                     file.write("\n")
-                    if footswitch.footswitch_type == "latching":
-                        file.write("    @property\n")
-                        file.write(f"    def {property_name(footswitch.name)}(self):\n")
-                        file.write(f'        return self.footswitches["{footswitch.name}"].state\n')
-                        file.write("\n")
-                        file.write("    @property\n")
-                        file.write(f"    def {property_name(footswitch.name)}_default(self):\n")
-                        file.write(f'        return self.footswitches["{footswitch.name}"].default_state\n')
-                    elif footswitch.footswitch_type == "momentary":
+                    if footswitch.footswitch_type in ["latching", "momentary"]:
                         file.write("    @property\n")
                         file.write(f"    def {property_name(footswitch.name)}(self):\n")
                         file.write(f'        return self.footswitches["{footswitch.name}"].state\n')
@@ -465,9 +457,9 @@ class PedalBuilder:
     def update_pedal_variant(self, variant: PyFxPedalVariant):
         pyfx_log.debug(f"Updating pedal variant {variant.name}")
 
-        with open(pedal_variant_module_file(self.root_pedal_folder, self.pedal.name, variant.name)) as file:
-            pedal_variant_file_contents = file.read()
-
+        pedal_variant_file_contents = Path(
+            pedal_variant_module_file(self.root_pedal_folder, self.pedal.name, variant.name)
+        ).read_text()
         if self.prev_pedal_name is not None:
             pedal_variant_file_contents = pedal_variant_file_contents.replace(
                 pedal_variant_base_class_name(self.prev_pedal_name),
@@ -537,10 +529,8 @@ class PedalBuilder:
             file.write(self.pedal.name)
 
     def remove_startup_config_file(self):
-        try:
+        with contextlib.suppress(FileNotFoundError):
             startup_config_file(self.root_pedal_folder).unlink()
-        except FileNotFoundError:
-            pass
 
     def set_pedal_variant(self, variant: PyFxPedalVariant):
         pyfx_log.debug(f"Set pedal variant to {variant.name}")
