@@ -79,9 +79,12 @@ class PyFxAudioController:
         }
         self.audio_consumer = self.interface_audio_consumer
 
-        self.set_audio_driver(self.audio_drivers[0])
-        self.set_audio_input_device(self.audio_input_devices[0])
-        self.set_audio_output_device(self.audio_output_devices[0])
+        if self.audio_drivers:
+            self.set_audio_driver(self.audio_drivers[0])
+        if self.audio_input_devices:
+            self.set_audio_input_device(self.audio_input_devices[0])
+        if self.audio_output_devices:
+            self.set_audio_output_device(self.audio_output_devices[0])
 
     def initialize(self):
         self.initialized = True
