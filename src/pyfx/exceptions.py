@@ -1,5 +1,7 @@
 from typing import Optional
 
+"""Knob Errors"""
+
 
 class KnobAlreadyExistsError(Exception):
     def __init__(self):
@@ -11,6 +13,9 @@ class KnobDoesNotExistError(Exception):
         super().__init__()
 
 
+"""Footswitch Errors"""
+
+
 class FootswitchAlreadyExistsError(Exception):
     def __init__(self):
         super().__init__()
@@ -19,6 +24,9 @@ class FootswitchAlreadyExistsError(Exception):
 class FootswitchDoesNotExistError(Exception):
     def __init__(self):
         super().__init__()
+
+
+"""Pedal Errors"""
 
 
 class PedalAlreadyExistsError(Exception):
