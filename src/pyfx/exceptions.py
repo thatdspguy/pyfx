@@ -47,3 +47,11 @@ class PedalVariantDoesNotExistError(Exception):
 class InvalidRootPedalFolderError(Exception):
     def __init__(self, message: Optional[str] = None):
         super().__init__(message)
+
+
+"""Audio Errors"""
+
+
+class AudioOutputDeviceNotFoundError(Exception):
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)

@@ -9,6 +9,7 @@ from numpy.typing import DTypeLike
 
 from pyfx.audio.audio_device import AudioDeviceInfo
 from pyfx.audio.audio_driver import AudioDriverInfo
+from pyfx.exceptions import AudioOutputDeviceNotFoundError
 from pyfx.logger import pyfx_log
 
 
@@ -110,6 +111,10 @@ class InterfaceAudioConsumer(AudioConsumer):
         return (interleaved_audio.tobytes(), pyaudio.paContinue)
 
     def start_stream(self):
+        if self.audio_output_device is None:
+            msg = f"Cannot start {self.name} because no audio output devices were found"
+            raise AudioOutputDeviceNotFoundError(msg)
+
         if self._stream is not None:
             self._stream.stop_stream()
             self._stream.close()
