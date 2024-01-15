@@ -50,7 +50,7 @@ class PyFxKnob(PyFxComponent):
             msg = "Precision must be less than (maximum_value - minimum_value)"
             raise KnobPrecisionError(msg)
         if mode not in self.valid_modes:
-            msg = f"Invalid log mode. Valid log modes are {self.valid_modes}"
+            msg = f"Invalid knob mode. Valid knob modes are {self.valid_modes}"
             raise KnobModeError(msg)
 
         super().__init__()

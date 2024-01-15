@@ -227,7 +227,7 @@ pyfx_knob_init_error_test_info = [
             "mode": "test",
         },
         error=KnobModeError,
-        error_msg=f"Invalid log mode. Valid log modes are {PyFxKnob.valid_modes}",
+        error_msg=f"Invalid knob mode. Valid knob modes are {PyFxKnob.valid_modes}",
     ),
     ErrorTestInfo(
         test_id="PyFxKnob.__init__: Error - Name is empty str",
