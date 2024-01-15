@@ -58,6 +58,7 @@ class PyFxFootswitch(PyFxComponent):
         )
 
     def set_footswitch_type(self, footswitch_type: str):
+        # sourcery skip: class-extract-method
         """
         Sets the footswitch type.
 
@@ -114,9 +115,7 @@ class PyFxFootswitch(PyFxComponent):
                 self.mode = self.modes[0]
                 pyfx_log.debug(f"Set {self.name} footswitch mode to {self.mode}")
                 self.mode_idx = 0
-            except IndexError:
-                self.mode = None
-            except TypeError:
+            except (IndexError, TypeError):
                 self.mode = None
             self.modified = True
 
