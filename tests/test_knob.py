@@ -1,5 +1,4 @@
 from typing import NamedTuple
-from unittest.mock import Mock, create_autospec
 
 import pytest
 
@@ -108,7 +107,7 @@ pyfx_knob_init_normal_test_info = [
     pyfx_knob_init_normal_test_info,
     ids=[test_info.test_id for test_info in pyfx_knob_init_normal_test_info],
 )
-def test_pyfx_knob_init_normal_cases(test_id: str, test_data: dict):
+def test_pyfx_knob_init_normal_cases(test_id: str, test_data: dict):  # noqa: ARG001
     default_minimum_value = 0
     default_maximum_value = 1
     default_default_value = 0.5
@@ -254,7 +253,7 @@ pyfx_knob_init_error_test_info = [
     pyfx_knob_init_error_test_info,
     ids=[test_info.test_id for test_info in pyfx_knob_init_error_test_info],
 )
-def test_pyfx_knob_init_error_cases(test_id: str, test_data: dict, error: Exception, error_msg: str):
+def test_pyfx_knob_init_error_cases(test_id: str, test_data: dict, error: Exception, error_msg: str):  # noqa: ARG001
     with pytest.raises(error) as exc_info:
         PyFxKnob(**test_data)
 
@@ -492,7 +491,7 @@ pyfx_knob_setters_normal_test_info = [
     pyfx_knob_setters_normal_test_info,
     ids=[test_info.test_id for test_info in pyfx_knob_setters_normal_test_info],
 )
-def test_pyfx_knob_setters_normal_cases(test_id: str, test_data: dict):
+def test_pyfx_knob_setters_normal_cases(test_id: str, test_data: dict):  # noqa: ARG001
     knob = PyFxKnob(**test_data["knob_data"])
     knob_value = getattr(knob, test_data["value_name"])
     assert knob_value != test_data["expected_value"]
@@ -638,7 +637,7 @@ pyfx_knob_setters_error_test_info = [
     pyfx_knob_setters_error_test_info,
     ids=[test_info.test_id for test_info in pyfx_knob_setters_error_test_info],
 )
-def test_pyfx_knob_setters_error_cases(test_id: str, test_data: dict, error: Exception, error_msg: str):
+def test_pyfx_knob_setters_error_cases(test_id: str, test_data: dict, error: Exception, error_msg: str):  # noqa: ARG001
     knob = PyFxKnob(**test_data["knob_data"])
     setter_fcn = getattr(knob, test_data["setter_name"])
 
@@ -782,7 +781,7 @@ pyfx_knob_setters_linearized_normal_test_info = [
     pyfx_knob_setters_linearized_normal_test_info,
     ids=[test_info.test_id for test_info in pyfx_knob_setters_linearized_normal_test_info],
 )
-def test_pyfx_knob_setters_linearized_normal_cases(test_id: str, test_data: dict):
+def test_pyfx_knob_setters_linearized_normal_cases(test_id: str, test_data: dict):  # noqa: ARG001
     knob = PyFxKnob(**test_data["knob_data"])
     knob_linearized_value = getattr(knob, test_data["value_name"])
     assert knob_linearized_value != test_data["expected_linearized_value"]
@@ -828,7 +827,7 @@ pyfx_knob_knob_add_and_remove_observer_normal_test_info = [
     pyfx_knob_knob_add_and_remove_observer_normal_test_info,
     ids=[test_info.test_id for test_info in pyfx_knob_knob_add_and_remove_observer_normal_test_info],
 )
-def test_pyfx_knob_add_and_remove_observers_normal_cases(test_id: str, test_data: dict):
+def test_pyfx_knob_add_and_remove_observers_normal_cases(test_id: str, test_data: dict):  # noqa: ARG001
     class TestObserverClass:
         def __init__(self):
             self.value = None
@@ -894,7 +893,7 @@ pyfx_knob_knob_notify_observer_normal_test_info = [
     pyfx_knob_knob_notify_observer_normal_test_info,
     ids=[test_info.test_id for test_info in pyfx_knob_knob_notify_observer_normal_test_info],
 )
-def test_pyfx_knob_notify_observers_normal_cases(test_id: str, test_data: dict):
+def test_pyfx_knob_notify_observers_normal_cases(test_id: str, test_data: dict):  # noqa: ARG001
     class TestObserverClass:
         def __init__(self):
             self.args = None
