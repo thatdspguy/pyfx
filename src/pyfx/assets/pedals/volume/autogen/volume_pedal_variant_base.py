@@ -14,19 +14,19 @@ class VolumePedalVariantBase(PyFxPedalVariant):
 
     @property
     def output(self):
-        return self.knobs["Output"].value
+        return self.knobs["Output"].value_linearized
 
     @property
     def output_min(self):
-        return self.knobs["Output"].minimum_value
+        return self.knobs["Output"].minimum_value_linearized
 
     @property
     def output_max(self):
-        return self.knobs["Output"].maximum_value
+        return self.knobs["Output"].maximum_value_linearized
 
     @property
     def output_default(self):
-        return self.knobs["Output"].default_value
+        return self.knobs["Output"].default_value_linearized
 
     """On/Off Footswitch Parameters"""
 

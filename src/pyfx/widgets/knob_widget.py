@@ -44,10 +44,7 @@ class KnobWidget(QDial):
         self.sensitivity = knob.sensitivity
         self.default_value = knob.default_value
         self.mode = knob.mode
-        if self.mode == "linear":
-            self.knob_value = np.clip(knob.value, self.minimum_value, self.maximum_value)
-        elif self.mode == "logarithmic":
-            self.knob_value = np.clip(20 * np.log10(knob.value), self.minimum_value, self.maximum_value)
+        self.knob_value = np.clip(knob.value, self.minimum_value, self.maximum_value)
         self.update_knob_settings()
 
     def set_knob_value(self, value: float):
@@ -77,10 +74,7 @@ class KnobWidget(QDial):
         Calculates the float value of the knob based on the integer value from the dial.
         :param value: The integer value from the dial.
         """
-        if self.mode == "linear":
-            float_value = value * self.precision
-        else:  # logarithmic
-            float_value = 10 ** (value * self.precision / 20)
+        float_value = value * self.precision
         self.knob.set_knob_value(float_value)
 
     def mousePressEvent(self, event):  # noqa: N802

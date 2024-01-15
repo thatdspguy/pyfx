@@ -13,6 +13,26 @@ class KnobDoesNotExistError(Exception):
         super().__init__()
 
 
+class KnobRangeError(Exception):
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)
+
+
+class KnobPrecisionError(Exception):
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)
+
+
+class KnobModeError(Exception):
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)
+
+
+class KnobNameError(Exception):
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)
+
+
 """Footswitch Errors"""
 
 

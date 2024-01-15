@@ -1,4 +1,5 @@
 from pyfx.component import PyFxComponent
+from pyfx.exceptions import KnobModeError, KnobNameError, KnobPrecisionError, KnobRangeError
 from pyfx.logger import pyfx_log
 
 
@@ -18,6 +19,8 @@ class PyFxKnob(PyFxComponent):
         value (float): The current value of the knob. Defaults to 0.5.
     """
 
+    valid_modes = ("linear", "logarithmic")
+
     def __init__(
         self,
         name: str,
@@ -30,6 +33,26 @@ class PyFxKnob(PyFxComponent):
         display_enabled: bool = False,  # noqa: FBT001, FBT002
         value: float = 0.5,
     ):
+        # Validate inputs
+        if not name:
+            msg = "Name must be a non-empty str"
+            raise KnobNameError(msg)
+        if minimum_value > maximum_value:
+            msg = "Minimum value must be less than maximum value"
+            raise KnobRangeError(msg)
+        if default_value < minimum_value or default_value > maximum_value:
+            msg = "Default value must be within the minimum and maximum values"
+            raise KnobRangeError(msg)
+        if value < minimum_value or value > maximum_value:
+            msg = "Value must be within the minimum and maximum values"
+            raise KnobRangeError(msg)
+        if precision > (maximum_value - minimum_value):
+            msg = "Precision must be less than (maximum_value - minimum_value)"
+            raise KnobPrecisionError(msg)
+        if mode not in self.valid_modes:
+            msg = f"Invalid log mode. Valid log modes are {self.valid_modes}"
+            raise KnobModeError(msg)
+
         super().__init__()
         self.name = name
         self.minimum_value = minimum_value
@@ -40,6 +63,10 @@ class PyFxKnob(PyFxComponent):
         self.mode = mode
         self.display_enabled = display_enabled
         self.value = value
+        self._set_linearized_minimum_value(minimum_value)
+        self._set_linearized_maximum_value(maximum_value)
+        self._set_linearized_default_value(default_value)
+        self._set_linearized_knob_value(value)
         self._set_knob_value_observers = []
         self._change_knob_name_observers = []
         self._remove_knob_observers = []
@@ -63,41 +90,96 @@ class PyFxKnob(PyFxComponent):
             ),
         )
 
-    def set_minimum_value(self, value: float):
+    def set_minimum_value(self, minimum_value: float):
+        # sourcery skip: class-extract-method
         """
         Sets the minimum value of the knob.
 
         Args:
-            value (float): The new minimum value to be set.
+            minimum_value (float): The new minimum value to be set.
         """
-        if self.minimum_value != value:
-            pyfx_log.debug(f"{self.name} knob minimum value set to {value}")
-            self.minimum_value = value
+        if minimum_value > self.maximum_value:
+            msg = "Minimum value must be less than maximum value"
+            raise KnobRangeError(msg)
+
+        if self.minimum_value != minimum_value:
+            pyfx_log.debug(f"{self.name} knob minimum value set to {minimum_value}")
+            self.minimum_value = minimum_value
+            self._set_linearized_minimum_value(minimum_value)
             self.modified = True
 
-    def set_maximum_value(self, value: float):
+    def _set_linearized_minimum_value(self, minimum_value: float):
+        """
+        Sets the linearized minimum value of the knob.
+
+        Args:
+            minimum_value (float): The current minimum value in which to
+                calculate the linearized minimum value from.
+        """
+        if self.mode == "linear":
+            self.minimum_value_linearized = minimum_value
+        elif self.mode == "logarithmic":
+            self.minimum_value_linearized = 10 ** (minimum_value / 20)
+
+    def set_maximum_value(self, maximum_value: float):
         """
         Sets the maximum value of the knob.
 
         Args:
-            value (float): The new maximum value to be set.
+            maximum_value (float): The new maximum value to be set.
         """
-        if self.maximum_value != value:
-            pyfx_log.debug(f"{self.name} knob maximum value set to {value}")
-            self.maximum_value = value
+        if maximum_value < self.minimum_value:
+            msg = "Maximum value must be greater than minimum value"
+            raise KnobRangeError(msg)
+
+        if self.maximum_value != maximum_value:
+            pyfx_log.debug(f"{self.name} knob maximum value set to {maximum_value}")
+            self.maximum_value = maximum_value
+            self._set_linearized_maximum_value(maximum_value)
             self.modified = True
 
-    def set_default_value(self, value: float):
+    def _set_linearized_maximum_value(self, maximum_value: float):
+        """
+        Sets the linearized maximum value of the knob.
+
+        Args:
+            maximum_value (float): The current maximum value in which to
+                calculate the linearized maximum value from.
+        """
+        if self.mode == "linear":
+            self.maximum_value_linearized = maximum_value
+        elif self.mode == "logarithmic":
+            self.maximum_value_linearized = 10 ** (maximum_value / 20)
+
+    def set_default_value(self, default_value: float):
         """
         Sets the default value of the knob.
 
         Args:
-            value (float): The new default value to be set.
+            default_value (float): The new default value to be set.
         """
-        if self.default_value != value:
-            pyfx_log.debug(f"{self.name} knob default value set to {value}")
-            self.default_value = value
+        if default_value < self.minimum_value or default_value > self.maximum_value:
+            msg = "Default value must be within the minimum and maximum values"
+            raise KnobRangeError(msg)
+
+        if self.default_value != default_value:
+            pyfx_log.debug(f"{self.name} knob default value set to {default_value}")
+            self.default_value = default_value
+            self._set_linearized_default_value(default_value)
             self.modified = True
+
+    def _set_linearized_default_value(self, default_value: float):
+        """
+        Sets the linearized default value of the knob.
+
+        Args:
+            default_value (float): The current default value in which to
+                calculate the linearized default value from.
+        """
+        if self.mode == "linear":
+            self.default_value_linearized = default_value
+        elif self.mode == "logarithmic":
+            self.default_value_linearized = 10 ** (default_value / 20)
 
     def set_precision(self, precision: float):
         """
@@ -106,6 +188,10 @@ class PyFxKnob(PyFxComponent):
         Args:
             precision (float): The new precision value to be set.
         """
+        if precision > (self.maximum_value - self.minimum_value):
+            msg = "Precision must be less than (maximum_value - minimum_value)"
+            raise KnobPrecisionError(msg)
+
         if self.precision != precision:
             pyfx_log.debug(f"{self.name} knob precision set to {precision}")
             self.precision = precision
@@ -130,6 +216,10 @@ class PyFxKnob(PyFxComponent):
         Args:
             mode (str): The new mode to be set.
         """
+        if mode not in self.valid_modes:
+            msg = f"Invalid log mode. Valid log modes are {self.valid_modes}"
+            raise KnobModeError(msg)
+
         if self.mode != mode:
             pyfx_log.debug(f"{self.name} knob mode set to {mode}")
             self.mode = mode
@@ -161,11 +251,29 @@ class PyFxKnob(PyFxComponent):
         Args:
             value (float): The new value to be set for the knob.
         """
+        if value < self.minimum_value or value > self.maximum_value:
+            msg = "Value must be within the minimum and maximum values"
+            raise KnobRangeError(msg)
+
         if self.value != value:
-            pyfx_log.debug(f"{self.name} knob set to {value}")
+            pyfx_log.debug(f"{self.name} knob set to {value}{' dB' if self.mode == 'logarithmic' else ''}")
             self.value = value
+            self._set_linearized_knob_value(value)
             self.modified = True
             self.notify_set_knob_value_observers(value)
+
+    def _set_linearized_knob_value(self, value: float):
+        """
+        Sets the linearized value of the knob.
+
+        Args:
+            value (float): The current knob value in which to
+                calculate the linearized knob value from.
+        """
+        if self.mode == "linear":
+            self.value_linearized = value
+        elif self.mode == "logarithmic":
+            self.value_linearized = 10 ** (value / 20)
 
     def add_set_knob_value_observer(self, observer):
         pyfx_log.debug(
@@ -211,6 +319,10 @@ class PyFxKnob(PyFxComponent):
         Args:
             new_name (str): The new name to be set for the knob.
         """
+        if not new_name:
+            msg = "Name must be a non-empty str"
+            raise KnobNameError(msg)
+
         if self.name != new_name:
             old_name = self.name
             pyfx_log.debug(f"{old_name} knob name changed to {new_name}")

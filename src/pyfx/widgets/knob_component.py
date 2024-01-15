@@ -45,14 +45,12 @@ class KnobComponent(QWidget, Ui_KnobComponent):
         Update the knob's display in response to a change in value.
         :param value: The new value of the knob.
         """
-        pyfx_log.debug(f"{self.knob.name} changed to {value}")
         precision = self.knob.precision
         round_amount = int(np.log10(1 / precision))
+        knob_editbox_text = f"{round(value, round_amount)}"
         if self.knob.mode == "logarithmic":
-            value_db = 20 * np.log10(value)
-            self.knob_editbox.setText(f"{round(value_db, round_amount)} dB")
-        else:
-            self.knob_editbox.setText(f"{round(value, round_amount)}")
+            knob_editbox_text = f"{knob_editbox_text} dB"
+        self.knob_editbox.setText(knob_editbox_text)
 
     def contextMenuEvent(self, event):  # noqa: N802
         """

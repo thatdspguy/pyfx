@@ -14,37 +14,37 @@ class SaturatePedalVariantBase(PyFxPedalVariant):
 
     @property
     def amount(self):
-        return self.knobs["Amount"].value
+        return self.knobs["Amount"].value_linearized
 
     @property
     def amount_min(self):
-        return self.knobs["Amount"].minimum_value
+        return self.knobs["Amount"].minimum_value_linearized
 
     @property
     def amount_max(self):
-        return self.knobs["Amount"].maximum_value
+        return self.knobs["Amount"].maximum_value_linearized
 
     @property
     def amount_default(self):
-        return self.knobs["Amount"].default_value
+        return self.knobs["Amount"].default_value_linearized
 
     """Output Knob Parameters"""
 
     @property
     def output(self):
-        return self.knobs["Output"].value
+        return self.knobs["Output"].value_linearized
 
     @property
     def output_min(self):
-        return self.knobs["Output"].minimum_value
+        return self.knobs["Output"].minimum_value_linearized
 
     @property
     def output_max(self):
-        return self.knobs["Output"].maximum_value
+        return self.knobs["Output"].maximum_value_linearized
 
     @property
     def output_default(self):
-        return self.knobs["Output"].default_value
+        return self.knobs["Output"].default_value_linearized
 
     """On/Off Footswitch Parameters"""
 
