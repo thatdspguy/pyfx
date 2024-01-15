@@ -4,13 +4,13 @@ from typing import Optional
 
 
 class KnobAlreadyExistsError(Exception):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)
 
 
 class KnobDoesNotExistError(Exception):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)
 
 
 class KnobRangeError(Exception):
@@ -37,31 +37,31 @@ class KnobNameError(Exception):
 
 
 class FootswitchAlreadyExistsError(Exception):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)
 
 
 class FootswitchDoesNotExistError(Exception):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)
 
 
 """Pedal Errors"""
 
 
 class PedalAlreadyExistsError(Exception):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)
 
 
 class PedalDoesNotExistError(Exception):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)
 
 
 class PedalVariantDoesNotExistError(Exception):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, message: Optional[str] = None):
+        super().__init__(message)
 
 
 class InvalidRootPedalFolderError(Exception):
