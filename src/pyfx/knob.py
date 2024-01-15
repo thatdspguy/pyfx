@@ -276,27 +276,27 @@ class PyFxKnob(PyFxComponent):
             self.value_linearized = 10 ** (value / 20)
 
     def add_set_knob_value_observer(self, observer):
-        pyfx_log.debug(
-            f"Adding {self.name} knob set knob value observer: {observer.__self__.__class__.__name__}.{observer.__name__}"  # noqa: E501
-        )
         """
         Adds an observer for the knob value set event.
 
         Args:
             observer: The observer function to be added.
         """
+        pyfx_log.debug(
+            f"Adding {self.name} knob set knob value observer: {observer.__self__.__class__.__name__}.{observer.__name__}"  # noqa: E501
+        )
         self._set_knob_value_observers.append(observer)
 
     def remove_set_knob_value_observer(self, observer):
-        pyfx_log.debug(
-            f"Removing {self.name} knob set knob value observer: {observer.__self__.__class__.__name__}.{observer.__name__}"  # noqa: E501
-        )
         """
         Removes an observer for the knob value set event.
 
         Args:
             observer: The observer function to be removed.
         """
+        pyfx_log.debug(
+            f"Removing {self.name} knob set knob value observer: {observer.__self__.__class__.__name__}.{observer.__name__}"  # noqa: E501
+        )
         self._set_knob_value_observers.remove(observer)
 
     def notify_set_knob_value_observers(self, value: float):
@@ -331,27 +331,27 @@ class PyFxKnob(PyFxComponent):
             self.notify_change_knob_name_observers(old_name, new_name)
 
     def add_change_knob_name_observer(self, observer):
-        pyfx_log.debug(
-            f"Adding {self.name} knob change knob name observer: {observer.__self__.__class__.__name__}.{observer.__name__}"  # noqa: E501
-        )
         """
         Adds an observer for the knob name change event.
 
         Args:
             observer: The observer function to be added.
         """
+        pyfx_log.debug(
+            f"Adding {self.name} knob change knob name observer: {observer.__self__.__class__.__name__}.{observer.__name__}"  # noqa: E501
+        )
         self._change_knob_name_observers.append(observer)
 
     def remove_change_knob_name_observer(self, observer):
-        pyfx_log.debug(
-            f"Removing {self.name} knob change knob name observer: {observer.__self__.__class__.__name__}.{observer.__name__}"  # noqa: E501
-        )
         """
         Removes an observer for the knob name change event.
 
         Args:
             observer: The observer function to be removed.
         """
+        pyfx_log.debug(
+            f"Removing {self.name} knob change knob name observer: {observer.__self__.__class__.__name__}.{observer.__name__}"  # noqa: E501
+        )
         self._change_knob_name_observers.remove(observer)
 
     def notify_change_knob_name_observers(self, old_name: str, new_name: str):
@@ -376,27 +376,27 @@ class PyFxKnob(PyFxComponent):
         self.notify_remove_knob_observers()
 
     def add_remove_knob_observer(self, observer):
-        pyfx_log.debug(
-            f"Adding {self.name} knob remove knob observer: {observer.__self__.__class__.__name__}.{observer.__name__}"
-        )
         """
         Adds an observer for the knob removal event.
 
         Args:
             observer: The observer function to be added.
         """
+        pyfx_log.debug(
+            f"Adding {self.name} knob remove knob observer: {observer.__self__.__class__.__name__}.{observer.__name__}"
+        )
         self._remove_knob_observers.append(observer)
 
     def remove_remove_knob_observer(self, observer):
-        pyfx_log.debug(
-            f"Removing {self.name} knob remove knob observer: {observer.__self__.__class__.__name__}.{observer.__name__}"  # noqa: E501
-        )
         """
         Removes an observer for the knob removal event.
 
         Args:
             observer: The observer function to be removed.
         """
+        pyfx_log.debug(
+            f"Removing {self.name} knob remove knob observer: {observer.__self__.__class__.__name__}.{observer.__name__}"  # noqa: E501
+        )
         self._remove_knob_observers.remove(observer)
 
     def notify_remove_knob_observers(self):
