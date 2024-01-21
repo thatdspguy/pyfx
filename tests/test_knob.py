@@ -18,8 +18,9 @@ class ErrorTestInfo(NamedTuple):
     error_msg: str = None
 
 
-"""PyFxKnob.__init__ Normal Tests"""
-pyfx_knob_init_normal_test_info = [
+"""PyFxKnob.__init__ Normal Testcases"""
+
+pyfx_knob_init_normal_testcases = [
     NormalTestInfo(
         test_id="PyFxKnob.__init__: Normal - Default Values",
         test_data={
@@ -101,11 +102,13 @@ pyfx_knob_init_normal_test_info = [
     ),
 ]
 
+"""PyFxKnob.__init__ Normal Test"""
+
 
 @pytest.mark.parametrize(
     "test_id, test_data",
-    pyfx_knob_init_normal_test_info,
-    ids=[test_info.test_id for test_info in pyfx_knob_init_normal_test_info],
+    pyfx_knob_init_normal_testcases,
+    ids=[test_info.test_id for test_info in pyfx_knob_init_normal_testcases],
 )
 def test_pyfx_knob_init_normal_cases(test_id: str, test_data: dict):  # noqa: ARG001
     default_minimum_value = 0
@@ -153,8 +156,9 @@ def test_pyfx_knob_init_normal_cases(test_id: str, test_data: dict):  # noqa: AR
     assert knob.value_linearized == expected_value_linearized
 
 
-"""PyFxKnob.__init__ Error Tests"""
-pyfx_knob_init_error_test_info = [
+"""PyFxKnob.__init__ Error Testcases"""
+
+pyfx_knob_init_error_testcases = [
     ErrorTestInfo(
         test_id="PyFxKnob.__init__: Error - Min > Max",
         test_data={
@@ -247,11 +251,13 @@ pyfx_knob_init_error_test_info = [
     ),
 ]
 
+"""PyFxKnob.__init__ Error Test"""
+
 
 @pytest.mark.parametrize(
     "test_id, test_data, error, error_msg",
-    pyfx_knob_init_error_test_info,
-    ids=[test_info.test_id for test_info in pyfx_knob_init_error_test_info],
+    pyfx_knob_init_error_testcases,
+    ids=[test_info.test_id for test_info in pyfx_knob_init_error_testcases],
 )
 def test_pyfx_knob_init_error_cases(test_id: str, test_data: dict, error: Exception, error_msg: str):  # noqa: ARG001
     with pytest.raises(error) as exc_info:
@@ -261,7 +267,9 @@ def test_pyfx_knob_init_error_cases(test_id: str, test_data: dict, error: Except
         assert str(exc_info.value) == error_msg
 
 
-pyfx_knob_setters_normal_test_info = [
+"""Setters Normal Testcases"""
+
+pyfx_knob_setters_normal_testcases = [
     NormalTestInfo(
         test_id="PyFxKnob.set_minimum_value: Normal Case",
         test_data={
@@ -485,11 +493,13 @@ pyfx_knob_setters_normal_test_info = [
     ),
 ]
 
+"""Setters Normal Test"""
+
 
 @pytest.mark.parametrize(
     "test_id, test_data",
-    pyfx_knob_setters_normal_test_info,
-    ids=[test_info.test_id for test_info in pyfx_knob_setters_normal_test_info],
+    pyfx_knob_setters_normal_testcases,
+    ids=[test_info.test_id for test_info in pyfx_knob_setters_normal_testcases],
 )
 def test_pyfx_knob_setters_normal_cases(test_id: str, test_data: dict):  # noqa: ARG001
     knob = PyFxKnob(**test_data["knob_data"])
@@ -501,7 +511,9 @@ def test_pyfx_knob_setters_normal_cases(test_id: str, test_data: dict):  # noqa:
     assert knob_value == test_data["expected_value"]
 
 
-pyfx_knob_setters_error_test_info = [
+"""Setters Error Testcases"""
+
+pyfx_knob_setters_error_testcases = [
     ErrorTestInfo(
         test_id="PyFxKnob.set_minimum_value: Error - Min > Max",
         test_data={
@@ -632,10 +644,13 @@ pyfx_knob_setters_error_test_info = [
 ]
 
 
+"""Setters Error Test"""
+
+
 @pytest.mark.parametrize(
     "test_id, test_data, error, error_msg",
-    pyfx_knob_setters_error_test_info,
-    ids=[test_info.test_id for test_info in pyfx_knob_setters_error_test_info],
+    pyfx_knob_setters_error_testcases,
+    ids=[test_info.test_id for test_info in pyfx_knob_setters_error_testcases],
 )
 def test_pyfx_knob_setters_error_cases(test_id: str, test_data: dict, error: Exception, error_msg: str):  # noqa: ARG001
     knob = PyFxKnob(**test_data["knob_data"])
@@ -648,7 +663,9 @@ def test_pyfx_knob_setters_error_cases(test_id: str, test_data: dict, error: Exc
         assert str(exc_info.value) == error_msg
 
 
-pyfx_knob_setters_linearized_normal_test_info = [
+"""Setters Linearized Normal Testcases"""
+
+pyfx_knob_setters_linearized_normal_testcases = [
     NormalTestInfo(
         test_id="PyFxKnob.set_minimum_value (Linearized: linear): Normal Case",
         test_data={
@@ -775,11 +792,13 @@ pyfx_knob_setters_linearized_normal_test_info = [
     ),
 ]
 
+"""Setters Linearized Normal Test"""
+
 
 @pytest.mark.parametrize(
     "test_id, test_data",
-    pyfx_knob_setters_linearized_normal_test_info,
-    ids=[test_info.test_id for test_info in pyfx_knob_setters_linearized_normal_test_info],
+    pyfx_knob_setters_linearized_normal_testcases,
+    ids=[test_info.test_id for test_info in pyfx_knob_setters_linearized_normal_testcases],
 )
 def test_pyfx_knob_setters_linearized_normal_cases(test_id: str, test_data: dict):  # noqa: ARG001
     knob = PyFxKnob(**test_data["knob_data"])
@@ -791,7 +810,9 @@ def test_pyfx_knob_setters_linearized_normal_cases(test_id: str, test_data: dict
     assert knob_linearized_value == test_data["expected_linearized_value"]
 
 
-pyfx_knob_knob_add_and_remove_observer_normal_test_info = [
+"""Add/Remove Observers Normal Testcases"""
+
+pyfx_knob_knob_add_and_remove_observer_normal_testcases = [
     NormalTestInfo(
         test_id="PyFxKnob.{add,remove}_set_knob_value_observer: Normal Case",
         test_data={
@@ -822,10 +843,13 @@ pyfx_knob_knob_add_and_remove_observer_normal_test_info = [
 ]
 
 
+"""Add/Remove Observers Normal Test"""
+
+
 @pytest.mark.parametrize(
     "test_id, test_data",
-    pyfx_knob_knob_add_and_remove_observer_normal_test_info,
-    ids=[test_info.test_id for test_info in pyfx_knob_knob_add_and_remove_observer_normal_test_info],
+    pyfx_knob_knob_add_and_remove_observer_normal_testcases,
+    ids=[test_info.test_id for test_info in pyfx_knob_knob_add_and_remove_observer_normal_testcases],
 )
 def test_pyfx_knob_add_and_remove_observers_normal_cases(test_id: str, test_data: dict):  # noqa: ARG001
     class TestObserverClass:
@@ -848,7 +872,9 @@ def test_pyfx_knob_add_and_remove_observers_normal_cases(test_id: str, test_data
     assert test_observer_class.observer_cb not in observers
 
 
-pyfx_knob_knob_notify_observer_normal_test_info = [
+"""Notify Observers Normal Testcases"""
+
+pyfx_knob_knob_notify_observer_normal_testcases = [
     NormalTestInfo(
         test_id="PyFxKnob.notify_set_knob_value_observers: Normal Case",
         test_data={
@@ -887,11 +913,13 @@ pyfx_knob_knob_notify_observer_normal_test_info = [
     ),
 ]
 
+"""Notify Observers Normal Test"""
+
 
 @pytest.mark.parametrize(
     "test_id, test_data",
-    pyfx_knob_knob_notify_observer_normal_test_info,
-    ids=[test_info.test_id for test_info in pyfx_knob_knob_notify_observer_normal_test_info],
+    pyfx_knob_knob_notify_observer_normal_testcases,
+    ids=[test_info.test_id for test_info in pyfx_knob_knob_notify_observer_normal_testcases],
 )
 def test_pyfx_knob_notify_observers_normal_cases(test_id: str, test_data: dict):  # noqa: ARG001
     class TestObserverClass:
